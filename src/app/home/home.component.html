@@ -1,0 +1,198 @@
+
+
+
+
+
+
+  <!-- Toolbar -->
+  <div class="toolbar" role="banner">
+    <img
+      width="40"
+      alt="Angular Logo"
+      src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg=="
+    />
+    <span>Welcome</span>
+      <div class="spacer"></div>
+      <a aria-label="Angular on twitter" target="_blank" rel="noopener" href="https://twitter.com/angular" title="Twitter">
+        <svg id="twitter-logo" height="24" data-name="Logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400">
+          <rect width="400" height="400" fill="none"/>
+          <path d="M153.62,301.59c94.34,0,145.94-78.16,145.94-145.94,0-2.22,0-4.43-.15-6.63A104.36,104.36,0,0,0,325,122.47a102.38,102.38,0,0,1-29.46,8.07,51.47,51.47,0,0,0,22.55-28.37,102.79,102.79,0,0,1-32.57,12.45,51.34,51.34,0,0,0-87.41,46.78A145.62,145.62,0,0,1,92.4,107.81a51.33,51.33,0,0,0,15.88,68.47A50.91,50.91,0,0,1,85,169.86c0,.21,0,.43,0,.65a51.31,51.31,0,0,0,41.15,50.28,51.21,51.21,0,0,1-23.16.88,51.35,51.35,0,0,0,47.92,35.62,102.92,102.92,0,0,1-63.7,22A104.41,104.41,0,0,1,75,278.55a145.21,145.21,0,0,0,78.62,23" fill="#fff"/>
+        </svg>
+      </a>
+  </div>
+  
+  <div class="content" role="main">
+    <div class="container">
+        <div class="row py-4 bg-darkblue">
+          <div class="col-md-12">
+
+                <div class="row">
+
+                    <label for="filerAddress" class="col-12 col-sm-2 col-form-label font-weight-bold">Filter By</label>
+
+                    <div class="col-3">
+
+                    <select class="form-control" name="item" [(ngModel)]='itemsPerPage'>
+                      <option >10</option>
+                      <option>20</option> 
+                      <option>50</option> 
+                      <option>100</option> 
+                      <option>200</option> 
+                      <option>500</option> 
+
+                    </select>
+                </div>
+
+                <div class="col-2">
+                    <button type="button" class="btn btn-light"  (click)="openModal(templateEmployee)"> <fa-icon [icon]="faPlus"></fa-icon> Employee </button>
+                </div>
+
+                <div class="col-2">
+                    <button type="button" class="btn btn-light"  (click)="openModal(templateFilter)"> <fa-icon [icon]="faPlus"></fa-icon> Filter </button>
+                </div>
+
+                </div>
+
+          </div>
+        </div>
+
+    <div class="table-responsive" style="overflow: auto;">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">id</th>
+                  <th scope="col">fullName_FL</th>
+                  <th scope="col">firstContractingSalary</th>
+                  <th scope="col">hiringDate</th>
+                  <th scope="col">status</th>
+
+                </tr>
+              </thead>
+          <tr *ngFor="let emp of employees  | paginate: { itemsPerPage: itemsPerPage, currentPage: page }; let i =index" >
+            <th scope="row">{{i+1}}</th>
+              <td>{{emp.id}}</td>
+              <td>{{emp.fullName_FL}}</td>
+              <td>{{emp.firstContractingSalary}}</td>
+              <td>{{emp.hiringDate}}</td>
+              <td>{{emp.employeeJobStatuses.status}}</td>
+          </tr>
+
+        </table>
+      </div>
+
+      <pagination-controls (pageChange)="page = $event"></pagination-controls>
+  
+  </div>
+</div>
+
+
+<ng-template #templateFilter>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Modal</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="row" style="margin: auto;padding: 20px;">
+              <div class="form-group" style="padding-right: 20px;width: 50%;">
+                <label for="salary">Add Filter</label>
+                <select class="form-control" id="salary">
+                  <option>salary</option>
+                </select>
+              </div>
+              <div class="form-group" style="padding-right: 20px;width: 50%;">
+                <label for="type">type</label>
+                <select class="form-control" id="type" [(ngModel)]="type">
+                  <option *ngFor="let type of typeFilter" [value]="type.name">{{type.name}}</option>
+                </select>
+              </div>
+            </div>
+              <div class="form-group">
+                <label for="start">start</label>
+                <input type="number" class="form-control" id="start" placeholder=" start salary" [(ngModel)]="startSalary">
+              </div>
+
+              <div class="form-group">
+                <label for="end">end</label>
+                <input type="number" class="form-control" id="end" placeholder="last salary" [(ngModel)]="endSalary">
+              </div>
+
+                <div class="form-group col text-center" >
+                    <button type="button" class="btn btn-light" style="width: 50%;" (click)="getSalary()" >  Confirm </button>
+                  </div>
+                  <div class="form-group col text-center" >
+                    <button type="button" class="btn btn-light" style="width: 50%;" (click)="modalRef.hide()">  Cancel </button>
+                </div>
+        </div>
+  </ng-template>
+
+  <ng-template #templateEmployee>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Modal</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+
+    <div class="modal-body">
+        <div class="row" style="margin: auto;padding: 20px;">
+              <div class="form-group" style="margin: auto">
+                <label for="fullName_FL">fullName_FL</label>
+                <input type="text" class="form-control" id="fullName_FL" placeholder="" [(ngModel)]="employee.fullName_FL">
+              </div>
+
+              <div class="form-group" style="margin: auto">
+                <label for="fullName_SL">fullName_SL</label>
+                <input type="text" class="form-control" id="fullName_SL" placeholder="" [(ngModel)]="employee.fullName_SL">
+              </div>
+
+              <div class="form-group" style="margin: auto">
+                <label for="hiringDate">hiringDate</label>
+                <input type="text" class="form-control" id="hiringDate" placeholder="" [(ngModel)]="employee.hiringDate">
+              </div>
+              
+              <div class="form-group" style="margin: auto">
+                <label for="firstContractingSalary">firstContractingSalary</label>
+                <input type="text" class="form-control" id="firstContractingSalary" placeholder="" [(ngModel)]="employee.firstContractingSalary">
+              </div>
+        </div>
+        <div class="form-group col text-center" >
+            <button type="button" class="btn btn-light" style="width: 50%;" (click)="createEmployee(); modalRef.hide(); openModal(templateDetails);" >  Create Employee </button>
+          </div>
+          <div class="form-group col text-center" >
+            <button type="button" class="btn btn-light" style="width: 50%;" (click)="modalRef.hide()" >  Cancel </button>
+        </div>
+    </div>
+
+  </ng-template>
+
+
+ 
+<ng-template #templateDetails>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">details employee</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="table-responsive">
+        <table class="table" style="text-align: center;">
+              <tr> <td> id : {{employee.id}} </td></tr>
+              <tr> <td> fullName_FL: {{employee.fullName_FL}} </td></tr>
+              <tr> <td> firstContractingSalary:  {{employee.firstContractingSalary}} </td></tr>
+              <tr> <td> hiringDate: {{employee.hiringDate}} </td></tr>
+
+              <tr> <td> position.id: {{employee.position.id}} </td></tr>
+              <tr> <td> position.name_FL: {{employee.position.name_FL}} </td></tr>
+
+              <tr> <td> department.id: {{employee.department.id}} </td></tr>
+              <tr> <td> department.name_SL: {{employee.department.name_SL}} </td></tr>
+
+        </table>
+      </div>
+
+  </div>
+</ng-template>
